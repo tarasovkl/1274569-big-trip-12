@@ -1,11 +1,12 @@
-const createEventTemplate = () => {
+const createEventTemplate = (pointInfo) => {
+  const {city, type, price} = pointInfo;
   return (
     `<li class="trip-events__item">
     <div class="event">
       <div class="event__type">
-        <img class="event__type-icon" width="42" height="42" src="img/icons/drive.png" alt="Event type icon">
+        <img class="event__type-icon" width="42" height="42" src="img/icons/${type === `Check` ? `check-in` : type.toLowerCase()}.png" alt="Event type icon">
       </div>
-      <h3 class="event__title">Drive to Chamonix</h3>
+      <h3 class="event__title">${type === (`Sightseeing` || `Check` || `Restaurant`) ? type + ` in` : type + ` to`} ${city}</h3>
 
       <div class="event__schedule">
         <p class="event__time">
@@ -17,7 +18,7 @@ const createEventTemplate = () => {
       </div>
 
       <p class="event__price">
-        €&nbsp;<span class="event__price-value">160</span>
+        €&nbsp;<span class="event__price-value">${price}</span>
       </p>
 
       <h4 class="visually-hidden">Offers:</h4>
