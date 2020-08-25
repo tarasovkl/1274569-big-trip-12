@@ -3,11 +3,10 @@ import { createMenuTemplate } from "./view/menu.js";
 import { createFiltersTemplate } from "./view/filters.js";
 import { createSortTemplate } from "./view/sort.js";
 import { createFormTemplate } from "./view/form.js";
-import { createDetailsTemplate} from "./view/form.js";
-import { createEventTemplate } from "./view/event.js";
-import { createDayListTemplate } from "./view/day.js";
-import { generateTripData } from "./view/utils.js"
-
+import { createFormOfferTemplate } from "./view/formOffer.js";
+import { createEventTemplate } from "./view/point.js";
+import { createDayListTemplate } from "./view/dayList.js";
+import { generateTripData } from "./mock/data.js";
 
 const EVENT_COUNT = 5;
 
@@ -31,15 +30,27 @@ render(tripInfo, createTripInfoTemplate(), `afterbegin`);
 render(menuHeader, createMenuTemplate(), `afterend`);
 render(filterHeader, createFiltersTemplate(), `afterend`);
 render(tripEvents, createSortTemplate(), `beforeend`);
-render(tripEvents, createFormTemplate(), `beforeend`);
 render(tripEvents, createDayListTemplate(), `beforeend`);
 
 
+
 const eventList = pageMain.querySelector(`.trip-events__list`);
-const form = pageMain.querySelector(`.trip-events__item`);
+
 
 for (let i = 0; i < EVENT_COUNT; i++) {
   render(eventList, createEventTemplate(tripPoints[i]), `beforeend`);
 };
 
-render(form, createDetailsTemplate(), `beforeend`);
+
+const tripPointsList = pageMain.querySelectorAll(`.trip-events__item`);
+const pointsTotal = Array.from(tripPointsList).slice(0, tripPointsList.length);
+const pointEditButtons = pageMain.querySelectorAll(`.event__rollup-btn`);
+
+pointEditButtons.forEach((button, i) => {
+  button.addEventListener(`click`, () => {
+    render(pointsTotal[i], createFormTemplate(tripPoints[i]), `beforeend`);
+    const formHeaders = document.querySelectorAll(`.event__header`);
+    render(formHeaders[i], createFormOfferTemplate(tripPoints[i]), `afterend`);
+  })
+
+});
