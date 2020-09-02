@@ -1,10 +1,11 @@
+import { createElement } from "../utils/utils.js";
+
 const MAX_OFFER_COUNT = 3;
 
-const createEventTemplate = (pointDetails) => {
-  const {city, type, price, offer, startTime, endTime} = pointDetails;
-
+const createPointTemplate = (pointDetails) => {
+  const {city, type, price, offers, startTime, endTime} = pointDetails;
   const createOffer = () => {
-    return offer.map(({description, price}) =>
+    return offers.map(({description, price}) =>
       `<li class="event__offer">
       <span class="event__offer-title">${description}</span>
       +
@@ -49,6 +50,24 @@ const createEventTemplate = (pointDetails) => {
   );
 };
 
+export default class Point {
+  constructor(pointDetails) {
+    this._tripPoint = pointDetails;
+    this._element = null;
+  }
+   getTemplate() {
+     return createPointTemplate(this._tripPoint);
+   }
 
+   getElement() {
+     if(!this._element) {
+       this._element = createElement(this.getTemplate())
+     }
 
-export {createEventTemplate};
+     return this._element;
+   }
+
+   removeElement() {
+     this._element = null;
+   }
+};

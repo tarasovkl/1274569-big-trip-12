@@ -2,8 +2,8 @@ import { getRandomInteger } from "../utils/utils.js";
 import { shuffle } from "../utils/utils.js";
 
 const DESCRIPTION_LENGTH = 5;
-const MIN_PRICE = 50;
-const MAX_PRICE = 200;
+const MIN_PRICE = 1;
+const MAX_PRICE = 1000;
 
 /**
  */
@@ -20,16 +20,25 @@ const generateCity = () => {
   return cities[randomIndex];
 };
 
+const generateChecked = () => {
+  return (
+    Boolean(getRandomInteger(0, 1))
+  )
+};
+
 const generateOfferType = () => {
-  const offer = [
-    {description: `Add luggage`, price: 30},
-    {description: `Switch to comfort class`, price: 100},
-    {description: `Add meal`, price: 15},
-    {description: `Choose seats`, price: 5},
-    {description: `Travel by train`, price: 40}
+
+  const isChecked = generateChecked();
+
+  const offers = [
+    { description: `Add luggage`, price: 30, checked: isChecked},
+    { description: `Switch to comfort class`, price: 100, checked: isChecked},
+    { description: `Add meal`, price: 15, checked: isChecked},
+    { description: `Choose seats`, price: 5, checked: isChecked},
+    { description: `Travel by train`, price: 40, checked: isChecked}
   ];
-  const randomIndex = getRandomInteger(0, offer.length - 1);
-  return shuffle(offer).slice(0, randomIndex);
+  const randomIndex = getRandomInteger(0, offers.length - 1);
+  return shuffle(offers).slice(0, randomIndex);
 };
 
 const generateDescription = () => {
@@ -61,7 +70,7 @@ const generatePictures = () => {
 };
 
 const generatePrice = () => {
-  return getRandomInteger(MIN_PRICE,MAX_PRICE);
+  return getRandomInteger(MIN_PRICE, MAX_PRICE);
 };
 
 const generateStartTime = () => {
@@ -80,13 +89,13 @@ const generateTripData = () => {
   return {
     type: generateTripType(),
     city: generateCity(),
-    offer: generateOfferType(),
+    offers: generateOfferType(),
     description: generateDescription(),
-    photo: generatePictures(),
-    price : generatePrice(),
+    price: generatePrice(),
     startTime: generateStartTime(),
     endTime: generateEndTime(),
+    pictures: generatePictures(),
   };
 };
 
-export {generateTripData};
+export { generateTripData };

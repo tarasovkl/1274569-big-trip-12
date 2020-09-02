@@ -1,5 +1,28 @@
 const createFormOfferTemplate = (pointDetails) => {
-  const {description, pictures} = pointDetails;
+  const {description, offers, pictures} = pointDetails;
+  console.log(pointDetails)
+  const createOffers = () => {
+    return offers.map(({description, price, checked}) =>
+    `<div class="event__offer-selector">
+    <input class="event__offer-checkbox  visually-hidden" id="event-offer-luggage-1" type="checkbox" name="event-offer-luggage" ${checked === true ? `checked` : ``}>
+    <label class="event__offer-label" for="event-offer-luggage-1">
+      <span class="event__offer-title">${description}</span>
+      +
+      €&nbsp;<span class="event__offer-price">${price}</span>
+    </label>
+  </div>`
+    ).join(``);
+  };
+
+  const offerTemplate = createOffers();
+
+  const createPictures = () => {
+    return pictures.map((path) =>
+    `<img class="event__photo" src="${path}" alt="Event photo">`
+    ).join(``);
+  };
+
+  const pictureTemplate = createPictures();
 
   return (
     `<section class="event__details">
@@ -7,50 +30,7 @@ const createFormOfferTemplate = (pointDetails) => {
       <h3 class="event__section-title  event__section-title--offers">Offers</h3>
 
       <div class="event__available-offers">
-        <div class="event__offer-selector">
-          <input class="event__offer-checkbox  visually-hidden" id="event-offer-luggage-1" type="checkbox" name="event-offer-luggage" checked="">
-          <label class="event__offer-label" for="event-offer-luggage-1">
-            <span class="event__offer-title">Add luggage</span>
-            +
-            €&nbsp;<span class="event__offer-price">30</span>
-          </label>
-        </div>
-
-        <div class="event__offer-selector">
-          <input class="event__offer-checkbox  visually-hidden" id="event-offer-comfort-1" type="checkbox" name="event-offer-comfort" checked="">
-          <label class="event__offer-label" for="event-offer-comfort-1">
-            <span class="event__offer-title">Switch to comfort class</span>
-            +
-            €&nbsp;<span class="event__offer-price">100</span>
-          </label>
-        </div>
-
-        <div class="event__offer-selector">
-          <input class="event__offer-checkbox  visually-hidden" id="event-offer-meal-1" type="checkbox" name="event-offer-meal">
-          <label class="event__offer-label" for="event-offer-meal-1">
-            <span class="event__offer-title">Add meal</span>
-            +
-            €&nbsp;<span class="event__offer-price">15</span>
-          </label>
-        </div>
-
-        <div class="event__offer-selector">
-          <input class="event__offer-checkbox  visually-hidden" id="event-offer-seats-1" type="checkbox" name="event-offer-seats">
-          <label class="event__offer-label" for="event-offer-seats-1">
-            <span class="event__offer-title">Choose seats</span>
-            +
-            €&nbsp;<span class="event__offer-price">5</span>
-          </label>
-        </div>
-
-        <div class="event__offer-selector">
-          <input class="event__offer-checkbox  visually-hidden" id="event-offer-train-1" type="checkbox" name="event-offer-train">
-          <label class="event__offer-label" for="event-offer-train-1">
-            <span class="event__offer-title">Travel by train</span>
-            +
-            €&nbsp;<span class="event__offer-price">40</span>
-          </label>
-        </div>
+        ${offerTemplate}
       </div>
     </section>
 
@@ -60,11 +40,7 @@ const createFormOfferTemplate = (pointDetails) => {
 
       <div class="event__photos-container">
         <div class="event__photos-tape">
-          <img class="event__photo" src="img/photos/1.jpg" alt="Event photo">
-          <img class="event__photo" src="img/photos/2.jpg" alt="Event photo">
-          <img class="event__photo" src="img/photos/3.jpg" alt="Event photo">
-          <img class="event__photo" src="img/photos/4.jpg" alt="Event photo">
-          <img class="event__photo" src="img/photos/5.jpg" alt="Event photo">
+          ${pictureTemplate}
         </div>
       </div>
     </section>

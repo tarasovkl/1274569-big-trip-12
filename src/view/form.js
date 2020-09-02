@@ -1,12 +1,43 @@
 const createFormTemplate = (pointDetails) => {
-  const {startTime, endTime, price} = pointDetails;
+  const { startTime, endTime, price, type, city} = pointDetails;
+  const createTransferTemplate = () => {
+    const tripTransfer = [`Taxi`, `Bus`, `Train`, `Ship`, `Transport`, `Drive`, `Flight`,];
+    return tripTransfer.map((transfer) =>
+      `<div class="event__type-item">
+<input id="event-type-${transfer.toLowerCase()}-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${transfer.toLocaleLowerCase()}">
+<label class="event__type-label  event__type-label--${transfer.toLocaleLowerCase()}" for="event-type-${transfer.toLocaleLowerCase()}-1">${transfer}</label>
+</div>`).join(``);
+  };
+
+  const createTransferList = createTransferTemplate();
+
+  const createActivityTemplate = () => {
+    const tripActivity = [`Check-in`, `Sightseeing`, `Restaurant`];
+    return tripActivity.map((activity) =>
+      `<div class="event__type-item">
+      <input id="event-type-${activity.toLowerCase()}-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${activity.toLowerCase()}">
+      <label class="event__type-label  event__type-label--${activity.toLowerCase()}" for="event-type-check-in-1">${activity}</label>
+    </div>`).join(``);
+  };
+
+  const createActivityList = createActivityTemplate();
+
+  const createCityTemplate = () => {
+    const cities = [`Amsterdam`, `Chamonix`, `Geneva`, `Saint-Petersburg`];
+    return cities.map((cityName) =>
+    `<option value="${cityName}"></option>`).join(``);
+  };
+
+  const createCityList = createCityTemplate();
+
+
   return (
     `<form class="trip-events__item  event  event--edit" action="#" method="post">
     <header class="event__header">
       <div class="event__type-wrapper">
         <label class="event__type  event__type-btn" for="event-type-toggle-1">
           <span class="visually-hidden">Choose event type</span>
-          <img class="event__type-icon" width="17" height="17" src="img/icons/bus.png" alt="Event type icon">
+          <img class="event__type-icon" width="17" height="17" src="img/icons/${type === `Check` ? `check-in` : type.toLowerCase()}.png" alt="Event type icon">
         </label>
         <input class="event__type-toggle  visually-hidden" id="event-type-toggle-1" type="checkbox">
 
@@ -14,73 +45,23 @@ const createFormTemplate = (pointDetails) => {
           <fieldset class="event__type-group">
             <legend class="visually-hidden">Transfer</legend>
 
-            <div class="event__type-item">
-              <input id="event-type-taxi-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="taxi">
-              <label class="event__type-label  event__type-label--taxi" for="event-type-taxi-1">Taxi</label>
-            </div>
-
-            <div class="event__type-item">
-              <input id="event-type-bus-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="bus" checked="">
-              <label class="event__type-label  event__type-label--bus" for="event-type-bus-1">Bus</label>
-            </div>
-
-            <div class="event__type-item">
-              <input id="event-type-train-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="train">
-              <label class="event__type-label  event__type-label--train" for="event-type-train-1">Train</label>
-            </div>
-
-            <div class="event__type-item">
-              <input id="event-type-ship-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="ship">
-              <label class="event__type-label  event__type-label--ship" for="event-type-ship-1">Ship</label>
-            </div>
-
-            <div class="event__type-item">
-              <input id="event-type-transport-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="transport">
-              <label class="event__type-label  event__type-label--transport" for="event-type-transport-1">Transport</label>
-            </div>
-
-            <div class="event__type-item">
-              <input id="event-type-drive-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="drive">
-              <label class="event__type-label  event__type-label--drive" for="event-type-drive-1">Drive</label>
-            </div>
-
-            <div class="event__type-item">
-              <input id="event-type-flight-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="flight">
-              <label class="event__type-label  event__type-label--flight" for="event-type-flight-1">Flight</label>
-            </div>
+            ${createTransferList}
           </fieldset>
 
           <fieldset class="event__type-group">
             <legend class="visually-hidden">Activity</legend>
-
-            <div class="event__type-item">
-              <input id="event-type-check-in-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="check-in">
-              <label class="event__type-label  event__type-label--check-in" for="event-type-check-in-1">Check-in</label>
-            </div>
-
-            <div class="event__type-item">
-              <input id="event-type-sightseeing-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="sightseeing">
-              <label class="event__type-label  event__type-label--sightseeing" for="event-type-sightseeing-1">Sightseeing</label>
-            </div>
-
-            <div class="event__type-item">
-              <input id="event-type-restaurant-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="restaurant">
-              <label class="event__type-label  event__type-label--restaurant" for="event-type-restaurant-1">Restaurant</label>
-            </div>
+            ${createActivityList}
           </fieldset>
         </div>
       </div>
 
       <div class="event__field-group  event__field-group--destination">
         <label class="event__label  event__type-output" for="event-destination-1">
-          Bus to
+        ${[`Sightseeing`, `Check`, `Restaurant`].includes(type) ? type + ` in` : type + ` to`}
         </label>
-        <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="" list="destination-list-1">
+        <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${city}" list="destination-list-1">
         <datalist id="destination-list-1">
-          <option value="Amsterdam"></option>
-          <option value="Geneva"></option>
-          <option value="Chamonix"></option>
-          <option value="Saint Petersburg"></option>
+        ${createCityList}
         </datalist>
       </div>
 
@@ -113,4 +94,4 @@ const createFormTemplate = (pointDetails) => {
 
 
 
-export {createFormTemplate};
+export { createFormTemplate };

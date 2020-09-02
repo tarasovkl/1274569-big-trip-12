@@ -1,22 +1,18 @@
 import { createTripInfoTemplate } from "./view/trip-info.js";
-import { createMenuTemplate } from "./view/menu.js";
+import MenuView from "./view/menu.js";
 import { createFiltersTemplate } from "./view/filters.js";
 import { createSortTemplate } from "./view/sort.js";
 import { createFormTemplate } from "./view/form.js";
 import { createFormOfferTemplate } from "./view/formOffer.js";
-import { createEventTemplate } from "./view/point.js";
+import EventView from "./view/point.js";
 import { createDayListTemplate } from "./view/dayList.js";
+import { createDayTemplate } from "./view/day.js";
 import { generateTripData } from "./mock/data.js";
+import { renderTemplate, renderElement, RenderPosition} from "./utils/utils.js";
 
 const EVENT_COUNT = 5;
 
 const tripPoints = new Array(EVENT_COUNT).fill().map(generateTripData);
-
-console.log(tripPoints);
-
-const render = (container, template, place) => {
-  container.insertAdjacentHTML(place, template);
-};
 
 const pageHeader = document.querySelector(`.page-header`);
 const tripInfo = pageHeader.querySelector(`.trip-main`);
@@ -25,22 +21,21 @@ const filterHeader = pageHeader.querySelector(`h2:last-child`);
 const pageMain = document.querySelector(`.page-main`);
 const tripEvents = pageMain.querySelector(`.trip-events`);
 
+renderTemplate(tripInfo, createTripInfoTemplate(), `afterbegin`);
+renderElement(menuHeader, new MenuView().getElement(), RenderPosition.AFTEREND);
+renderTemplate(filterHeader, createFiltersTemplate(), `afterend`);
+renderTemplate(tripEvents, createSortTemplate(), `beforeend`);
+renderTemplate(tripEvents, createDayListTemplate(), `beforeend`);
 
-render(tripInfo, createTripInfoTemplate(), `afterbegin`);
-render(menuHeader, createMenuTemplate(), `afterend`);
-render(filterHeader, createFiltersTemplate(), `afterend`);
-render(tripEvents, createSortTemplate(), `beforeend`);
-render(tripEvents, createDayListTemplate(), `beforeend`);
+const tripDayList = pageMain. querySelector(`.trip-days`);
 
-
+renderTemplate(tripDayList, createDayTemplate(), `beforeend`);
 
 const eventList = pageMain.querySelector(`.trip-events__list`);
 
-
 for (let i = 0; i < EVENT_COUNT; i++) {
-  render(eventList, createEventTemplate(tripPoints[i]), `beforeend`);
+  renderElement(eventList, new EventView(tripPoints[i]).getElement(), RenderPosition.BEFOREEND);
 };
-
 
 const tripPointsList = pageMain.querySelectorAll(`.trip-events__item`);
 const pointsTotal = Array.from(tripPointsList).slice(0, tripPointsList.length);
@@ -48,9 +43,9 @@ const pointEditButtons = pageMain.querySelectorAll(`.event__rollup-btn`);
 
 pointEditButtons.forEach((button, i) => {
   button.addEventListener(`click`, () => {
-    render(pointsTotal[i], createFormTemplate(tripPoints[i]), `beforeend`);
+    renderTemplate(pointsTotal[i], createFormTemplate(tripPoints[i]), `beforeend`);
     const formHeaders = document.querySelectorAll(`.event__header`);
-    render(formHeaders[i], createFormOfferTemplate(tripPoints[i]), `afterend`);
+    console.log(formHeaders);
+    renderTemplate(formHeaders[i], createFormOfferTemplate(tripPoints[i]), `afterend`);
   })
-
 });
