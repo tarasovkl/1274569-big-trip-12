@@ -1,6 +1,7 @@
+import {createElement} from "../utils/utils.js"
+
 const createFormOfferTemplate = (pointDetails) => {
   const {description, offers, pictures} = pointDetails;
-  console.log(pointDetails)
   const createOffers = () => {
     return offers.map(({description, price, checked}) =>
     `<div class="event__offer-selector">
@@ -48,4 +49,24 @@ const createFormOfferTemplate = (pointDetails) => {
   );
 };
 
-export {createFormOfferTemplate};
+export default class FormOffer {
+  constructor(pointDetails) {
+    this._tripPoint = pointDetails;
+    this._element = null;
+  }
+   getTemplate() {
+     return createFormOfferTemplate(this._tripPoint);
+   }
+
+   getElement() {
+     if(!this._element) {
+       this._element = createElement(this.getTemplate())
+     }
+
+     return this._element;
+   }
+
+   removeElement() {
+     this._element = null;
+   }
+};

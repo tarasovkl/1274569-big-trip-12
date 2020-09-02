@@ -1,3 +1,5 @@
+import {createElement} from "../utils/utils.js"
+
 const createFormTemplate = (pointDetails) => {
   const { startTime, endTime, price, type, city} = pointDetails;
   const createTransferTemplate = () => {
@@ -94,4 +96,25 @@ const createFormTemplate = (pointDetails) => {
 
 
 
-export { createFormTemplate };
+export default class Form {
+  constructor(pointDetails) {
+    this._element = null;
+    this._tripPoint = pointDetails;
+  }
+
+  getTemplate() {
+    return createFormTemplate(this._tripPoint);
+  }
+
+  getElement() {
+    if(!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+};
