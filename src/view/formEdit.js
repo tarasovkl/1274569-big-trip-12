@@ -1,7 +1,22 @@
 import {createElement} from "../utils/utils.js"
 
-const createFormTemplate = (pointDetails) => {
-  const { startTime, endTime, price, type, city} = pointDetails;
+const createFormEditTemplate = (pointDetails) => {
+  const {offers, price, type, startTime, endTime, city} = pointDetails;
+  const createOffers = () => {
+    return offers.map(({description, price, checked}) =>
+    `<div class="event__offer-selector">
+    <input class="event__offer-checkbox  visually-hidden" id="event-offer-luggage-1" type="checkbox" name="event-offer-luggage" ${checked === true ? `checked` : ``}>
+    <label class="event__offer-label" for="event-offer-luggage-1">
+      <span class="event__offer-title">${description}</span>
+      +
+      €&nbsp;<span class="event__offer-price">${price}</span>
+    </label>
+  </div>`
+    ).join(``);
+  };
+
+  const offerTemplate = createOffers();
+
   const createTransferTemplate = () => {
     const tripTransfer = [`Taxi`, `Bus`, `Train`, `Ship`, `Transport`, `Drive`, `Flight`,];
     return tripTransfer.map((transfer) =>
@@ -31,7 +46,6 @@ const createFormTemplate = (pointDetails) => {
   };
 
   const createCityList = createCityTemplate();
-
 
   return (
     `<form class="trip-events__item  event  event--edit" action="#" method="post">
@@ -88,22 +102,39 @@ const createFormTemplate = (pointDetails) => {
       </div>
 
       <button class="event__save-btn  btn  btn--blue" type="submit">Save</button>
-      <button class="event__reset-btn" type="reset">Cancel</button>
+      <button class="event__reset-btn" type="reset">Delete</button>
+      <input id="event-favorite-1" class="event__favorite-checkbox  visually-hidden" type="checkbox" name="event-favorite" checked="">
+      <label class="event__favorite-btn" for="event-favorite-1">
+        <span class="visually-hidden">Add to favorite</span>
+        <svg class="event__favorite-icon" width="28" height="28" viewBox="0 0 28 28">
+          <path d="M14 21l-8.22899 4.3262 1.57159-9.1631L.685209 9.67376 9.8855 8.33688 14 0l4.1145 8.33688 9.2003 1.33688-6.6574 6.48934 1.5716 9.1631L14 21z"></path>
+        </svg>
+      </label>
+      <button class="event__rollup-btn" type="button">
+        <span class="visually-hidden">Open event</span>
+      </button>
     </header>
+    <section class="event__details">
+      <section class="event__section  event__section--offers">
+         <h3 class="event__section-title  event__section-title--offers">Offers</h3>
+         <div class="event__available-offers">
+            ${offerTemplate}
+         </div>
+       </section>
+    </section>
   </form>`
   );
+
 };
 
-
-
-export default class Form {
+export default class FormEdit {
   constructor(pointDetails) {
     this._element = null;
     this._tripPoint = pointDetails;
   }
 
   getTemplate() {
-    return createFormTemplate(this._tripPoint);
+    return createFormEditTemplate(this._tripPoint);
   }
 
   getElement() {
@@ -124,3 +155,5 @@ export default class Form {
     }
   }
 };
+
+

@@ -3,9 +3,9 @@ import { createElement } from "../utils/utils.js";
 const MAX_OFFER_COUNT = 3;
 
 const createPointTemplate = (pointDetails) => {
-  const {city, type, price, offers, startTime, endTime} = pointDetails;
+  const { city, type, price, offers, startTime, endTime } = pointDetails;
   const createOffer = () => {
-    return offers.map(({description, price}) =>
+    return offers.map(({ description, price }) =>
       `<li class="event__offer">
       <span class="event__offer-title">${description}</span>
       +
@@ -55,19 +55,24 @@ export default class Point {
     this._tripPoint = pointDetails;
     this._element = null;
   }
-   getTemplate() {
-     return createPointTemplate(this._tripPoint);
-   }
+  getTemplate() {
+    return createPointTemplate(this._tripPoint);
+  }
 
-   getElement() {
-     if(!this._element) {
-       this._element = createElement(this.getTemplate())
-     }
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate())
+    }
+    return this._element;
+  }
 
-     return this._element;
-   }
+  removeElement() {
+    this._element = null;
+  }
 
-   removeElement() {
-     this._element = null;
-   }
+  addToggleCallback(callback) {
+    if (this._element) {
+      this._element.querySelector(`.event__rollup-btn`).addEventListener(`click`, callback);
+    }
+  }
 };
