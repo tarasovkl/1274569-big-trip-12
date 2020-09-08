@@ -1,21 +1,18 @@
-import { getRandomInteger } from "../utils/utils.js";
-import { shuffle } from "../utils/utils.js";
+import {getRandomInteger} from "../utils/utils.js";
+import {shuffle} from "../utils/utils.js";
 
 const DESCRIPTION_LENGTH = 5;
 const MIN_PRICE = 1;
 const MAX_PRICE = 1000;
 
-/**
- */
 const generateTripType = () => {
   const tripTypes = [`Taxi`, `Bus`, `Train`, `Ship`, `Transport`, `Drive`, `Flight`, `Check`, `Sightseeing`, `Restaurant`];
   const randomIndex = getRandomInteger(0, tripTypes.length - 1);
   return tripTypes[randomIndex];
 };
-/**
- */
+
 const generateCity = () => {
-  const cities = [`Amsterdam`, `Chamonix`, `Geneva`, `Saint-Petersburg`]
+  const cities = [`Amsterdam`, `Chamonix`, `Geneva`, `Saint-Petersburg`];
   const randomIndex = getRandomInteger(0, cities.length - 1);
   return cities[randomIndex];
 };
@@ -23,7 +20,7 @@ const generateCity = () => {
 const generateChecked = () => {
   return (
     Boolean(getRandomInteger(0, 1))
-  )
+  );
 };
 
 const generateOfferType = () => {
@@ -31,11 +28,11 @@ const generateOfferType = () => {
   const isChecked = generateChecked();
 
   const offers = [
-    { description: `Add luggage`, price: 30, checked: isChecked},
-    { description: `Switch to comfort class`, price: 100, checked: isChecked},
-    { description: `Add meal`, price: 15, checked: isChecked},
-    { description: `Choose seats`, price: 5, checked: isChecked},
-    { description: `Travel by train`, price: 40, checked: isChecked}
+    {offerDescription: `Add luggage`, offerPrice: 30, checked: isChecked},
+    {offerDescription: `Switch to comfort class`, offerPrice: 100, checked: isChecked},
+    {offerDescription: `Add meal`, offerPrice: 15, checked: isChecked},
+    {offerDescription: `Choose seats`, offerPrice: 5, checked: isChecked},
+    {offerDescription: `Travel by train`, offerPrice: 40, checked: isChecked}
   ];
   const randomIndex = getRandomInteger(0, offers.length - 1);
   return shuffle(offers).slice(0, randomIndex);
@@ -98,4 +95,4 @@ const generateTripData = () => {
   };
 };
 
-export { generateTripData };
+export {generateTripData};

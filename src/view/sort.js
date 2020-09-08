@@ -1,4 +1,4 @@
-import {createElement} from "../utils/utils.js"
+import {createElement} from "../utils/utils.js";
 
 const createSortTemplate = () => {
   return (
@@ -41,7 +41,7 @@ export default class Sort {
   }
 
   getElement() {
-    if(!this._element) {
+    if (!this._element) {
       this._element = createElement(this.getTemplate());
     }
 
@@ -51,4 +51,4 @@ export default class Sort {
   removeElement() {
     this._element = null;
   }
-};
+}

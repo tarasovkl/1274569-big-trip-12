@@ -1,4 +1,4 @@
-import {createElement} from "../utils/utils.js"
+import {createElement} from "../utils/utils.js";
 
 const createTripInfoTemplate = () => {
   return (
@@ -24,7 +24,7 @@ export default class TripInfo {
   }
 
   getElement() {
-    if(!this._element) {
+    if (!this._element) {
       this._element = createElement(this.getTemplate());
     }
 
@@ -34,4 +34,4 @@ export default class TripInfo {
   removeElement() {
     this._element = null;
   }
-};
+}

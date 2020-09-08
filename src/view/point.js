@@ -1,15 +1,13 @@
-import { createElement } from "../utils/utils.js";
-
-const MAX_OFFER_COUNT = 3;
+import {createElement} from "../utils/utils.js";
 
 const createPointTemplate = (pointDetails) => {
-  const { city, type, price, offers, startTime, endTime } = pointDetails;
+  const {city, type, price, offers, startTime, endTime} = pointDetails;
   const createOffer = () => {
-    return offers.map(({ description, price }) =>
+    return offers.map(({offerDescription, offerPrice}) =>
       `<li class="event__offer">
-      <span class="event__offer-title">${description}</span>
+      <span class="event__offer-title">${offerDescription}</span>
       +
-      €&nbsp;<span class="event__offer-price">${price}</span>
+      €&nbsp;<span class="event__offer-price">${offerPrice}</span>
      </li>`
     ).join(``);
   };
@@ -61,7 +59,7 @@ export default class Point {
 
   getElement() {
     if (!this._element) {
-      this._element = createElement(this.getTemplate())
+      this._element = createElement(this.getTemplate());
     }
     return this._element;
   }
@@ -75,4 +73,4 @@ export default class Point {
       this._element.querySelector(`.event__rollup-btn`).addEventListener(`click`, callback);
     }
   }
-};
+}

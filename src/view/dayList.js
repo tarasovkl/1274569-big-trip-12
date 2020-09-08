@@ -1,4 +1,4 @@
-import {createElement} from "../utils/utils.js"
+import {createElement} from "../utils/utils.js";
 
 const createDayListTemplate = () => {
   return (
@@ -18,7 +18,7 @@ export default class DayList {
   }
 
   getElement() {
-    if(!this._element) {
+    if (!this._element) {
       this._element = createElement(this.getTemplate());
     }
 
@@ -28,4 +28,4 @@ export default class DayList {
   removeElement() {
     this._element = null;
   }
-};
+}

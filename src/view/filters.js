@@ -1,4 +1,4 @@
-import {createElement} from "../utils/utils.js"
+import {createElement} from "../utils/utils.js";
 
 const createFiltersTemplate = () => {
   return (
@@ -30,7 +30,7 @@ export default class Filters {
   }
 
   getElement() {
-    if(!this._element) {
+    if (!this._element) {
       this._element = createElement(this.getTemplate());
     }
 
@@ -40,4 +40,4 @@ export default class Filters {
   removeElement() {
     this._element = null;
   }
-};
+}

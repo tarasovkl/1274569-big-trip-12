@@ -2,15 +2,13 @@ import TripInfoView from "./view/trip-info.js";
 import MenuView from "./view/menu.js";
 import FiltersView from "./view/filters.js";
 import SortView from "./view/sort.js";
-import FormView from "./view/form.js";
-import FormOfferView from "./view/formOffer.js";
 import PointView from "./view/point.js";
 import DayListView from "./view/dayList.js";
 import DayView from "./view/day.js";
-import TripPointListView from "./view/tripPointList.js"
+import TripPointListView from "./view/tripPointList.js";
 import FormEditView from "./view/formEdit.js";
-import { generateTripData } from "./mock/data.js";
-import { renderTemplate, renderElement, RenderPosition } from "./utils/utils.js";
+import {generateTripData} from "./mock/data.js";
+import {renderElement, RenderPosition} from "./utils/utils.js";
 
 
 const EVENT_COUNT = 5;
@@ -47,20 +45,20 @@ const renderPoint = (pointListElement, pointData) => {
   renderElement(pointListElement, point.getElement(), RenderPosition.BEFOREEND);
   point.addToggleCallback(() => {
     pointListElement.replaceChild(editPoint.getElement(), point.getElement());
-    editPoint.addToggleCallback(() => {
-      pointListElement.replaceChild(point.getElement(), editPoint.getElement()) });
   });
-}
+  editPoint.getElement();
+  editPoint.addToggleCallback(() => {
+    pointListElement.replaceChild(point.getElement(), editPoint.getElement());
+  });
+};
 
 for (let i = 0; i < EVENT_COUNT; i++) {
-  renderPoint(pointList.getElement(), tripPoints[i])
-};
+  renderPoint(pointList.getElement(), tripPoints[i]);
+}
 
 /* const tripPointsList = pageMain.querySelectorAll(`.trip-events__item`);
 const pointsTotal = Array.from(tripPointsList).slice(0, tripPointsList.length);
 const pointEditButtons = pageMain.querySelectorAll(`.event__rollup-btn`); */
-
-
 
 /* pointEditButtons.forEach((button, i) => {
   button.addEventListener(`click`, () => {

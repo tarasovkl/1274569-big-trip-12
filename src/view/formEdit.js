@@ -1,24 +1,24 @@
-import {createElement} from "../utils/utils.js"
+import {createElement} from "../utils/utils.js";
 
 const createFormEditTemplate = (pointDetails) => {
   const {offers, price, type, startTime, endTime, city} = pointDetails;
   const createOffers = () => {
-    return offers.map(({description, price, checked}) =>
-    `<div class="event__offer-selector">
-    <input class="event__offer-checkbox  visually-hidden" id="event-offer-luggage-1" type="checkbox" name="event-offer-luggage" ${checked === true ? `checked` : ``}>
-    <label class="event__offer-label" for="event-offer-luggage-1">
-      <span class="event__offer-title">${description}</span>
-      +
-      €&nbsp;<span class="event__offer-price">${price}</span>
-    </label>
-  </div>`
+    return offers.map(({offerDescription, offerPrice, checked}) =>
+      `<div class="event__offer-selector">
+      <input class="event__offer-checkbox  visually-hidden" id="event-offer-luggage-1" type="checkbox" name="event-offer-luggage" ${checked === true ? `checked` : ``}>
+      <label class="event__offer-label" for="event-offer-luggage-1">
+        <span class="event__offer-title">${offerDescription}</span>
+        +
+        €&nbsp;<span class="event__offer-price">${offerPrice}</span>
+      </label>
+    </div>`
     ).join(``);
   };
 
   const offerTemplate = createOffers();
 
   const createTransferTemplate = () => {
-    const tripTransfer = [`Taxi`, `Bus`, `Train`, `Ship`, `Transport`, `Drive`, `Flight`,];
+    const tripTransfer = [`Taxi`, `Bus`, `Train`, `Ship`, `Transport`, `Drive`, `Flight`];
     return tripTransfer.map((transfer) =>
       `<div class="event__type-item">
 <input id="event-type-${transfer.toLowerCase()}-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${transfer.toLocaleLowerCase()}">
@@ -42,7 +42,7 @@ const createFormEditTemplate = (pointDetails) => {
   const createCityTemplate = () => {
     const cities = [`Amsterdam`, `Chamonix`, `Geneva`, `Saint-Petersburg`];
     return cities.map((cityName) =>
-    `<option value="${cityName}"></option>`).join(``);
+      `<option value="${cityName}"></option>`).join(``);
   };
 
   const createCityList = createCityTemplate();
@@ -138,7 +138,7 @@ export default class FormEdit {
   }
 
   getElement() {
-    if(!this._element) {
+    if (!this._element) {
       this._element = createElement(this.getTemplate());
     }
 
@@ -154,6 +154,6 @@ export default class FormEdit {
       this._element.querySelector(`.event__rollup-btn`).addEventListener(`click`, callback);
     }
   }
-};
+}
 
 

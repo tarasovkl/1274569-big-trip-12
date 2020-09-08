@@ -1,9 +1,9 @@
-import {createElement} from "../utils/utils.js"
+import {createElement} from "../utils/utils.js";
 
 const createFormTemplate = (pointDetails) => {
-  const { startTime, endTime, price, type, city} = pointDetails;
+  const {startTime, endTime, price, type, city} = pointDetails;
   const createTransferTemplate = () => {
-    const tripTransfer = [`Taxi`, `Bus`, `Train`, `Ship`, `Transport`, `Drive`, `Flight`,];
+    const tripTransfer = [`Taxi`, `Bus`, `Train`, `Ship`, `Transport`, `Drive`, `Flight`];
     return tripTransfer.map((transfer) =>
       `<div class="event__type-item">
 <input id="event-type-${transfer.toLowerCase()}-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${transfer.toLocaleLowerCase()}">
@@ -27,7 +27,7 @@ const createFormTemplate = (pointDetails) => {
   const createCityTemplate = () => {
     const cities = [`Amsterdam`, `Chamonix`, `Geneva`, `Saint-Petersburg`];
     return cities.map((cityName) =>
-    `<option value="${cityName}"></option>`).join(``);
+      `<option value="${cityName}"></option>`).join(``);
   };
 
   const createCityList = createCityTemplate();
@@ -94,8 +94,6 @@ const createFormTemplate = (pointDetails) => {
   );
 };
 
-
-
 export default class Form {
   constructor(pointDetails) {
     this._element = null;
@@ -107,7 +105,7 @@ export default class Form {
   }
 
   getElement() {
-    if(!this._element) {
+    if (!this._element) {
       this._element = createElement(this.getTemplate());
     }
 
@@ -123,4 +121,4 @@ export default class Form {
       this._element.querySelector(`.event__rollup-btn`).addEventListener(`click`, callback);
     }
   }
-};
+}
