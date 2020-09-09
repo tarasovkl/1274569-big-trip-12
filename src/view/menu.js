@@ -1,4 +1,4 @@
-import {createElement} from "../utils/utils.js"
+import {createElement} from "../utils/utils.js";
 
 const createMenuTemplate = () => {
   return (
@@ -19,7 +19,7 @@ export default class Menu {
   }
 
   getElement() {
-    if(!this._element) {
+    if (!this._element) {
       this._element = createElement(this.getTemplate());
     }
 
@@ -29,4 +29,4 @@ export default class Menu {
   removeElement() {
     this._element = null;
   }
-};
+}

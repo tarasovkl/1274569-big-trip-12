@@ -1,14 +1,15 @@
-import { createTripInfoTemplate } from "./view/trip-info.js";
+import TripInfoView from "./view/trip-info.js";
 import MenuView from "./view/menu.js";
-import { createFiltersTemplate } from "./view/filters.js";
-import { createSortTemplate } from "./view/sort.js";
-import { createFormTemplate } from "./view/form.js";
-import { createFormOfferTemplate } from "./view/formOffer.js";
-import EventView from "./view/point.js";
-import { createDayListTemplate } from "./view/dayList.js";
-import { createDayTemplate } from "./view/day.js";
-import { generateTripData } from "./mock/data.js";
-import { renderTemplate, renderElement, RenderPosition} from "./utils/utils.js";
+import FiltersView from "./view/filters.js";
+import SortView from "./view/sort.js";
+import PointView from "./view/point.js";
+import DayListView from "./view/dayList.js";
+import DayView from "./view/day.js";
+import TripPointListView from "./view/tripPointList.js";
+import FormEditView from "./view/formEdit.js";
+import {generateTripData} from "./mock/data.js";
+import {renderElement, RenderPosition} from "./utils/utils.js";
+
 
 const EVENT_COUNT = 5;
 
@@ -21,31 +22,48 @@ const filterHeader = pageHeader.querySelector(`h2:last-child`);
 const pageMain = document.querySelector(`.page-main`);
 const tripEvents = pageMain.querySelector(`.trip-events`);
 
-renderTemplate(tripInfo, createTripInfoTemplate(), `afterbegin`);
+renderElement(tripInfo, new TripInfoView().getElement(), RenderPosition.AFTERBEGIN);
 renderElement(menuHeader, new MenuView().getElement(), RenderPosition.AFTEREND);
-renderTemplate(filterHeader, createFiltersTemplate(), `afterend`);
-renderTemplate(tripEvents, createSortTemplate(), `beforeend`);
-renderTemplate(tripEvents, createDayListTemplate(), `beforeend`);
+renderElement(filterHeader, new FiltersView().getElement(), RenderPosition.AFTEREND);
+renderElement(tripEvents, new SortView().getElement(), RenderPosition.BEFOREEND);
 
-const tripDayList = pageMain. querySelector(`.trip-days`);
+const dayList = new DayListView();
 
-renderTemplate(tripDayList, createDayTemplate(), `beforeend`);
+renderElement(tripEvents, dayList.getElement(), RenderPosition.BEFOREEND);
 
-const eventList = pageMain.querySelector(`.trip-events__list`);
+const tripDayList = new DayView();
 
-for (let i = 0; i < EVENT_COUNT; i++) {
-  renderElement(eventList, new EventView(tripPoints[i]).getElement(), RenderPosition.BEFOREEND);
+renderElement(dayList.getElement(), tripDayList.getElement(), RenderPosition.BEFOREEND);
+
+const pointList = new TripPointListView();
+
+renderElement(tripDayList.getElement(), pointList.getElement(), RenderPosition.BEFOREEND);
+
+const renderPoint = (pointListElement, pointData) => {
+  const point = new PointView(pointData);
+  const editPoint = new FormEditView(pointData);
+  renderElement(pointListElement, point.getElement(), RenderPosition.BEFOREEND);
+  point.addToggleCallback(() => {
+    pointListElement.replaceChild(editPoint.getElement(), point.getElement());
+  });
+  editPoint.getElement();
+  editPoint.addToggleCallback(() => {
+    pointListElement.replaceChild(point.getElement(), editPoint.getElement());
+  });
 };
 
-const tripPointsList = pageMain.querySelectorAll(`.trip-events__item`);
-const pointsTotal = Array.from(tripPointsList).slice(0, tripPointsList.length);
-const pointEditButtons = pageMain.querySelectorAll(`.event__rollup-btn`);
+for (let i = 0; i < EVENT_COUNT; i++) {
+  renderPoint(pointList.getElement(), tripPoints[i]);
+}
 
-pointEditButtons.forEach((button, i) => {
+/* const tripPointsList = pageMain.querySelectorAll(`.trip-events__item`);
+const pointsTotal = Array.from(tripPointsList).slice(0, tripPointsList.length);
+const pointEditButtons = pageMain.querySelectorAll(`.event__rollup-btn`); */
+
+/* pointEditButtons.forEach((button, i) => {
   button.addEventListener(`click`, () => {
-    renderTemplate(pointsTotal[i], createFormTemplate(tripPoints[i]), `beforeend`);
-    const formHeaders = document.querySelectorAll(`.event__header`);
-    console.log(formHeaders);
-    renderTemplate(formHeaders[i], createFormOfferTemplate(tripPoints[i]), `afterend`);
+    renderElement(pointsTotal[i], new FormView(tripPoints[i]).getElement(), RenderPosition.BEFOREEND);
+    const formHeader = document.querySelector(`.event__header`);
+    renderElement(formHeader, new FormOfferView(tripPoints[i]).getElement(), RenderPosition.AFTEREND);
   })
-});
+}); */

@@ -33,7 +33,7 @@ const createElement = (template) => {
  * Возвращает случайное число из диапазона
  * @param  {number} a=0
  * @param  {number} b=1
- * @return number
+ * @return {number}
  */
 const getRandomInteger = (a = 0, b = 1) => {
   const lower = Math.min(a, b);
@@ -44,10 +44,12 @@ const getRandomInteger = (a = 0, b = 1) => {
 /**
  * Меняет порядок элементов в массиве
  * @param  {array} arr
- * @return array
+ * @return {array}
  */
 const shuffle = (arr) => {
-  let j, x, i;
+  let j;
+  let x;
+  let i;
   let newArr = [];
   newArr = arr;
   for (i = newArr.length - 1; i > 0; i--) {

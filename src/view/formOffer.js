@@ -1,14 +1,15 @@
+import {createElement} from "../utils/utils.js";
+
 const createFormOfferTemplate = (pointDetails) => {
   const {description, offers, pictures} = pointDetails;
-  console.log(pointDetails)
   const createOffers = () => {
-    return offers.map(({description, price, checked}) =>
-    `<div class="event__offer-selector">
+    return offers.map(({offerDescription, offerPrice, checked}) =>
+      `<div class="event__offer-selector">
     <input class="event__offer-checkbox  visually-hidden" id="event-offer-luggage-1" type="checkbox" name="event-offer-luggage" ${checked === true ? `checked` : ``}>
     <label class="event__offer-label" for="event-offer-luggage-1">
-      <span class="event__offer-title">${description}</span>
+      <span class="event__offer-title">${offerDescription}</span>
       +
-      €&nbsp;<span class="event__offer-price">${price}</span>
+      €&nbsp;<span class="event__offer-price">${offerPrice}</span>
     </label>
   </div>`
     ).join(``);
@@ -18,7 +19,7 @@ const createFormOfferTemplate = (pointDetails) => {
 
   const createPictures = () => {
     return pictures.map((path) =>
-    `<img class="event__photo" src="${path}" alt="Event photo">`
+      `<img class="event__photo" src="${path}" alt="Event photo">`
     ).join(``);
   };
 
@@ -48,4 +49,24 @@ const createFormOfferTemplate = (pointDetails) => {
   );
 };
 
-export {createFormOfferTemplate};
+export default class FormOffer {
+  constructor(pointDetails) {
+    this._tripPoint = pointDetails;
+    this._element = null;
+  }
+  getTemplate() {
+    return createFormOfferTemplate(this._tripPoint);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
