@@ -29,8 +29,10 @@ export default class Trip {
 
   _renderPointList(pointData) {
 
-    const point = new PointView(pointData);
-    const editPoint = new FormEditView(pointData);
+
+    for (let i = 0; i < EVENT_COUNT; i++) {
+    const point = new PointView(pointData[i]);
+    const editPoint = new FormEditView(pointData[i]);
     render(this._tripPointListComponent, point, RenderPosition.BEFOREEND);
     point.setShowEdit(() => {
       replace(editPoint, point);
@@ -39,9 +41,6 @@ export default class Trip {
     editPoint.setCloseEdit(() => {
       replace(point, editPoint);
     });
-
-    for (let i = 0; i < EVENT_COUNT; i++) {
-      renderPoint(this._tripPointListComponent.getElement(), tripPoints[i]);
     }
   }
 }
