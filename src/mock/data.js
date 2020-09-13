@@ -1,5 +1,5 @@
-import {getRandomInteger} from "../utils/utils.js";
-import {shuffle} from "../utils/utils.js";
+import {getRandomInteger} from "../utils/common.js";
+import {shuffle} from "../utils/common.js";
 
 const DESCRIPTION_LENGTH = 5;
 const MIN_PRICE = 1;

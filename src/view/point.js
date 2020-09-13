@@ -1,4 +1,4 @@
-import {createElement} from "../utils/utils.js";
+import AbstractView from "./abstract.js";
 
 const createPointTemplate = (pointDetails) => {
   const {city, type, price, offers, startTime, endTime} = pointDetails;
@@ -48,29 +48,26 @@ const createPointTemplate = (pointDetails) => {
   );
 };
 
-export default class Point {
+export default class Point extends AbstractView {
   constructor(pointDetails) {
+    super();
     this._tripPoint = pointDetails;
-    this._element = null;
+    this._clickHandler = this._clickHandler.bind(this);
   }
   getTemplate() {
     return createPointTemplate(this._tripPoint);
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-    return this._element;
+  _clickHandler(evt) {
+    evt.preventDefault();
+    this._element.open();
   }
 
-  removeElement() {
-    this._element = null;
-  }
+  setShowEdit(callback) {
 
-  addToggleCallback(callback) {
     if (this._element) {
-      this._element.querySelector(`.event__rollup-btn`).addEventListener(`click`, callback);
+      this._element.open = callback;
+      this.getElement().querySelector(`.event__rollup-btn`).addEventListener(`click`, this._clickHandler);
     }
   }
 }

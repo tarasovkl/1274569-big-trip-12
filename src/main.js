@@ -2,13 +2,15 @@ import TripInfoView from "./view/trip-info.js";
 import MenuView from "./view/menu.js";
 import FiltersView from "./view/filters.js";
 import SortView from "./view/sort.js";
-import PointView from "./view/point.js";
+/* import PointView from "./view/point.js";
 import DayListView from "./view/dayList.js";
 import DayView from "./view/day.js";
 import TripPointListView from "./view/tripPointList.js";
-import FormEditView from "./view/formEdit.js";
+import FormEditView from "./view/formEdit.js"; */
 import {generateTripData} from "./mock/data.js";
-import {renderElement, RenderPosition} from "./utils/utils.js";
+import {render, RenderPosition, replace, remove} from "./utils/render.js";
+
+import TripPresenter from "./presenter/trip.js"
 
 
 const EVENT_COUNT = 5;
@@ -22,39 +24,45 @@ const filterHeader = pageHeader.querySelector(`h2:last-child`);
 const pageMain = document.querySelector(`.page-main`);
 const tripEvents = pageMain.querySelector(`.trip-events`);
 
-renderElement(tripInfo, new TripInfoView().getElement(), RenderPosition.AFTERBEGIN);
-renderElement(menuHeader, new MenuView().getElement(), RenderPosition.AFTEREND);
-renderElement(filterHeader, new FiltersView().getElement(), RenderPosition.AFTEREND);
-renderElement(tripEvents, new SortView().getElement(), RenderPosition.BEFOREEND);
+render(tripInfo, new TripInfoView(), RenderPosition.AFTERBEGIN);
+render(menuHeader, new MenuView(), RenderPosition.AFTEREND);
+render(filterHeader, new FiltersView(), RenderPosition.AFTEREND);
+render(tripEvents, new SortView(), RenderPosition.BEFOREEND);
 
-const dayList = new DayListView();
+const tripPresenter = new TripPresenter(tripEvents);
 
-renderElement(tripEvents, dayList.getElement(), RenderPosition.BEFOREEND);
+/* const dayList = new DayListView();
+
+render(tripEvents, dayList, RenderPosition.BEFOREEND);
 
 const tripDayList = new DayView();
 
-renderElement(dayList.getElement(), tripDayList.getElement(), RenderPosition.BEFOREEND);
+render(dayList, tripDayList, RenderPosition.BEFOREEND);
 
 const pointList = new TripPointListView();
 
-renderElement(tripDayList.getElement(), pointList.getElement(), RenderPosition.BEFOREEND);
+render(tripDayList, pointList, RenderPosition.BEFOREEND);
 
 const renderPoint = (pointListElement, pointData) => {
   const point = new PointView(pointData);
   const editPoint = new FormEditView(pointData);
-  renderElement(pointListElement, point.getElement(), RenderPosition.BEFOREEND);
-  point.addToggleCallback(() => {
-    pointListElement.replaceChild(editPoint.getElement(), point.getElement());
+  render(pointListElement, point, RenderPosition.BEFOREEND);
+  point.setShowEdit(() => {
+    replace(editPoint, point);
   });
   editPoint.getElement();
-  editPoint.addToggleCallback(() => {
-    pointListElement.replaceChild(point.getElement(), editPoint.getElement());
+  editPoint.setCloseEdit(() => {
+    replace(point, editPoint);
   });
 };
 
 for (let i = 0; i < EVENT_COUNT; i++) {
   renderPoint(pointList.getElement(), tripPoints[i]);
-}
+} */
+
+tripPresenter.init(tripPoints);
+
+
 
 /* const tripPointsList = pageMain.querySelectorAll(`.trip-events__item`);
 const pointsTotal = Array.from(tripPointsList).slice(0, tripPointsList.length);
