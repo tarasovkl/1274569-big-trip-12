@@ -1,4 +1,4 @@
-import {createElement} from "../utils/utils.js";
+import AbstractView from "./abstract.js";
 
 const createFormEditTemplate = (pointDetails) => {
   const {offers, price, type, startTime, endTime, city} = pointDetails;
@@ -127,31 +127,26 @@ const createFormEditTemplate = (pointDetails) => {
 
 };
 
-export default class FormEdit {
+export default class FormEdit extends AbstractView {
   constructor(pointDetails) {
-    this._element = null;
+    super();
     this._tripPoint = pointDetails;
+    this._clickHandler = this._clickHandler.bind(this);
   }
 
   getTemplate() {
     return createFormEditTemplate(this._tripPoint);
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
+  _clickHandler(evt) {
+    evt.preventDefault();
+    this._element.close();
   }
 
-  removeElement() {
-    this._element = null;
-  }
-
-  addToggleCallback(callback) {
+  setCloseEdit(callback) {
     if (this._element) {
-      this._element.querySelector(`.event__rollup-btn`).addEventListener(`click`, callback);
+      this._element.close = callback;
+      this._element.querySelector(`.event__rollup-btn`).addEventListener(`click`, this._clickHandler);
     }
   }
 }

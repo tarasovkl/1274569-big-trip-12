@@ -1,4 +1,4 @@
-import {createElement} from "../utils/utils.js";
+import AbstractView from "./abstract.js";
 
 const createFormOfferTemplate = (pointDetails) => {
   const {description, offers, pictures} = pointDetails;
@@ -49,24 +49,12 @@ const createFormOfferTemplate = (pointDetails) => {
   );
 };
 
-export default class FormOffer {
+export default class FormOffer extends AbstractView {
   constructor(pointDetails) {
+    super();
     this._tripPoint = pointDetails;
-    this._element = null;
   }
   getTemplate() {
     return createFormOfferTemplate(this._tripPoint);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }
